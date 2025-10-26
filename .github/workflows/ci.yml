@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.4']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer
+          extensions: mbstring, intl # add others if your project needs them
+
+      - name: Validate composer.json
+        run: composer validate --no-interaction
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.composer/cache/files
+            vendor
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Show versions
+        run: |
+          php -v
+          composer --version
+          ./vendor/bin/phpunit --version || true
+          ./vendor/bin/behat --version || true
+
+      - name: Run PHPUnit
+        run: ./vendor/bin/phpunit
+
+      - name: Run Behat (progress + JUnit)
+        run: |
+          mkdir -p build/behat-junit
+          ./vendor/bin/behat --format progress --format junit --out build/behat-junit
+
+      - name: Upload Behat JUnit Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: behat-junit-php-${{ matrix.php }}
+          path: build/behat-junit
