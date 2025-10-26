@@ -1,0 +1,5 @@
+{
+  "phpunit.command": "${workspaceFolder}/vendor/bin/phpunit",
+  "phpunit.config": "${workspaceFolder}/phpunit.xml",
+  "phpunit.arguments": ["--colors=never", "--teamcity"]
+}

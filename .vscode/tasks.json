@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Behat: Run all features",
+      "type": "shell",
+      "command": "${workspaceFolder}/vendor/bin/behat",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Behat: Run current feature file",
+      "type": "shell",
+      "command": "${workspaceFolder}/vendor/bin/behat ${file}",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Behat: Run scenario by name",
+      "type": "shell",
+      "command": "${workspaceFolder}/vendor/bin/behat --name \"${input:scenarioName}\"",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Behat: Run current file at line",
+      "type": "shell",
+      "command": "${workspaceFolder}/vendor/bin/behat ${file}:${input:lineNumber}",
+      "group": "test",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    { "id": "scenarioName", "type": "promptString", "description": "Scenario (or outline) name regex" },
+    { "id": "lineNumber", "type": "promptString", "description": "Line number (place cursor on the scenario line, then enter that number)" }
+  ]
+}
