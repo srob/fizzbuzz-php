@@ -1,0 +1,16 @@
+# Composer
+/vendor/
+/composer.lock
+
+# PHPUnit & Behat output
+/build/
+/reports/
+/rerun
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# OS cruft
+.DS_Store
+Thumbs.db
