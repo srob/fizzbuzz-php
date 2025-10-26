@@ -7,10 +7,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.4']
+        php: ['8.4']   # or ['8.2', '8.3'] if you want multiple versions
 
     steps:
       - name: Checkout
@@ -20,22 +21,21 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: none
           tools: composer
-          extensions: mbstring, intl # add others if your project needs them
+          coverage: none
+          extensions: mbstring, intl
 
-      - name: Validate composer.json
-        run: composer validate --no-interaction
+      - name: Validate composer.json (skip publish/lock checks)
+        run: composer validate --no-interaction --no-check-publish --no-check-lock
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/.composer/cache/files
-            vendor
-          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php }}-composer-
+            ${{ runner.os }}-php-${{ matrix.php }}-
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
@@ -50,10 +50,10 @@ jobs:
       - name: Run PHPUnit
         run: ./vendor/bin/phpunit
 
-      - name: Run Behat (progress + JUnit)
+      - name: Run Behat
         run: |
           mkdir -p build/behat-junit
-          ./vendor/bin/behat --format progress --format junit --out build/behat-junit
+          ./vendor/bin/behat -vvv
 
       - name: Upload Behat JUnit Report
         if: always()

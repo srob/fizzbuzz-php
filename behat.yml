@@ -1,9 +1,12 @@
 default:
   suites:
     default:
-      paths:
-        - features
+      paths: [features]
       contexts:
         - Features\Bootstrap\FeatureContext
   autoload:
     - vendor/autoload.php
+  formatters:
+    progress: ~
+    junit:
+      output_path: build/behat-junit/junit.xml
