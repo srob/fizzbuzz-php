@@ -12,5 +12,5 @@ Feature: FizzBuzz
       | number | result   |
       | 1      | 1        |
       | 3      | Fizz     |
-      | 5      | Fizz     |
+      | 5      | Buzz     |
       | 15     | FizzBuzz |
