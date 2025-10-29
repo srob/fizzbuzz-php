@@ -3,7 +3,7 @@
         'name' => 'srob/fizzbuzz-php',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '41f82f53bcb65e1854f9f8ab78e83156b5ea8840',
+        'reference' => 'e7970ee5ccc07f530872cab8cbb59a0a29a76207',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -319,7 +319,7 @@
         'srob/fizzbuzz-php' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '41f82f53bcb65e1854f9f8ab78e83156b5ea8840',
+            'reference' => 'e7970ee5ccc07f530872cab8cbb59a0a29a76207',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
